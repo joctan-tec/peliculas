@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelis</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="index.js"></script>
+    <style>
+        .movie-card {
+            scroll-snap-align: center;
+        }
+
+        #movies-carrousel-pending,
+        #movies-carrousel-watched {
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+        }
+    </style>
+
+</head>
+
+<body class="flex overflow-y-auto h-screen">
+    <div class="flex flex-col items-center bg-gray-800 p-2 md:p-8 overflow-y-auto justify-start position-relative">
+
+        <!-- Notification -->
+        <div class="flex w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-lg dark:bg-slate-900 fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-opacity duration-300"
+            id="notification" data-type="" style="display: none;">
+
+            <div id="notification-icon" class="flex items-center justify-center w-12 bg-emerald-500">
+                <span id="notification-icon-svg" class="text-white w-6 h-6"></span>
+            </div>
+            <div class="px-4 py-2 -mx-3">
+                <div class="mx-3">
+                    <span class="font-semibold" id="notification-title"></span>
+                    <p class="text-sm text-white" id="notification-message"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de agregar pelicula -->
+        <dialog closedby="any" id="dialog-add-movie"
+            class="backdrop:backdrop-blur-sm backdrop:backdrop-brightness-40 bg-gray-700 p-6 rounded-lg shadow-lg position-absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full md:w-1/2 xl:w-1/3">
+            <form id="form-add-movie" class="flex flex-col w-full" onsubmit="addMovie(event)">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl text-white mb-4">Agregar Película</h2>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-8 text-white cursor-pointer"
+                        onclick="document.getElementById('dialog-add-movie').close()">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+
+
+
+                </div>
+                <label for="movie-title" class="text-white">Título:</label>
+                <input type="text" placeholder="Escriba el titulo de la Película" id="movie-title" name="title"
+                    class="w-full p-2 mb-4 rounded-lg bg-gray-600 text-white" required>
+
+                <label for="movie-poster" class="text-white">Nombre de la imagen (debe terminar en .jpg, .png,
+                    etc.)</label>
+                <input type="text" placeholder="Escriba el nombre de la imagen" id="movie-poster" name="poster"
+                    class="w-full p-2 mb-4 rounded-lg bg-gray-600 text-white" required>
+
+                <label for="movie-link" class="text-white">Link de la Película</label>
+                <input type="url" placeholder="Escriba el link de la Película" id="movie-link" name="link"
+                    class="w-full p-2 mb-4 rounded-lg bg-gray-600 text-white" required>
+                <div class="flex items-center justify-between mt-4">
+                    <button type="button" class="bg-red-600 hover:bg-red-500 p-3 rounded-lg text-white shadow-lg"
+                        onclick="document.getElementById('dialog-add-movie').close()">Cancelar</button>
+
+                    <button type="submit"
+                        class="bg-green-600 hover:bg-green-500 p-3 mb-3 rounded-lg text-white shadow-lg">Agregar
+                        Película</button>
+                </div>
+            </form>
+        </dialog>
+        <!-- Fin -->
+
+        <!-- Modal de calificar película -->
+        <dialog id="dialog-rate-movie" closedby="any"
+            class="backdrop:backdrop-blur-sm backdrop:backdrop-brightness-40 bg-gray-700 p-6 rounded-lg shadow-lg position-absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full md:w-1/2 xl:w-1/3">
+            <form id="form-rate-movie" class="flex flex-col w-full" onsubmit="submitRating(event)">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl text-white mb-4">Calificar Película</h2>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-8 text-white cursor-pointer"
+                        onclick="document.getElementById('dialog-rate-movie').close()">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                </div>
+
+                <!-- Slider Novio -->
+                <label for="rating-novio" class="text-white font-semibold">Calificación del Novio</label>
+                <input type="range" min="0" max="10" step="1" value="5" id="rating-novio" name="rating_novio"
+                    class="mb-2 accent-green-500" oninput="updateRatingMeaning('novio')">
+                <p id="rating-meaning-novio" class="text-gray-300 text-sm italic mb-4"></p>
+
+                <!-- Slider Novia -->
+                <label for="rating-novia" class="text-white font-semibold">Calificación de la Novia</label>
+                <input type="range" min="0" max="10" step="1" value="5" id="rating-novia" name="rating_novia"
+                    class="mb-2 accent-pink-500" oninput="updateRatingMeaning('novia')">
+                <p id="rating-meaning-novia" class="text-gray-300 text-sm italic mb-4"></p>
+
+                <div class="flex items-center justify-between mt-4">
+                    <button type="button" class="bg-red-600 hover:bg-red-500 p-3 rounded-lg text-white shadow-lg"
+                        onclick="document.getElementById('dialog-rate-movie').close()">Cancelar</button>
+                    <button type="submit"
+                        class="bg-green-600 hover:bg-green-500 p-3 rounded-lg text-white shadow-lg">Guardar
+                        Calificación</button>
+                </div>
+            </form>
+        </dialog>
+
+        <!-- Fin -->
+
+
+
+        <h1 class="text-4xl text-white mb-8">Películas con mi amorcito</h1>
+
+        <div class="flex items-center justify-center w-full mb-4 space-x-2 md:space-x-4">
+            <button type="button" id="verPeliBtn"
+                class="p-3 bg-green-600 rounded-lg text-white cursor-pointer hover:bg-green-500">
+                Ver Nueva Peli
+            </button>
+            <button type="button" id="addMovieBtn"
+                class="p-3 bg-blue-600 rounded-lg text-white cursor-pointer hover:bg-blue-500">Agregar Película</button>
+
+        </div>
+
+        <div id="selected-movie-display" class="mt-4 text-white text-center"></div>
+
+
+        <h2 class="text-2xl text-white mb-8">Películas pendientes</h2>
+        <div class="flex items-center justify-between w-full mb-4 md:space-x-4">
+
+            <svg onclick="scrollCarrousel(2,1)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor" class="size-8 fill-white cursor-pointer">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+
+            <div id="movies-carrousel-pending"
+                class="flex overflow-x-auto bg-gray-500 space-x-4 w-full p-5 rounded-lg shadow-lg">
+                <!-- Aquí se cargarán las películas pendientes -->
+            </div>
+
+            <svg onclick="scrollCarrousel(1,1)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor" class="size-8 fill-white cursor-pointer">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+
+
+        </div>
+
+
+        <h2 class="text-2xl text-white mt-8 mb-4">Películas vistas</h2>
+
+        <div class="flex items-center justify-between w-full mb-4 space-x-4">
+
+            <svg onclick="scrollCarrousel(2,2)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor" class="size-8 fill-white cursor-pointer">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+
+            <div id="movies-carrousel-watched"
+                class="flex overflow-x-auto bg-gray-500 space-x-4 w-full p-5 rounded-lg shadow-lg">
+            </div>
+
+            <svg onclick="scrollCarrousel(1,2)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor" class="size-8 fill-white cursor-pointer">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+
+
+        </div>
+    </div>
+
+</body>
+
+</html>

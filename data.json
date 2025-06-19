@@ -1,0 +1,103 @@
+{
+    "peliculas": [
+        {
+            "nombre": "Happy Feet",
+            "imagen": "images/Happy_Feet.jpg",
+            "enlace": "https://www.pelis44.com/happy-feet-html/",
+            "ya_vista": false,
+            "fecha_vista": null,
+            "calificacion_novio": 0,
+            "calificacion_novia": 0
+        },
+        {
+            "nombre": "Alvin y las ardillas 2",
+            "imagen": "images/Alvin_y_las_ardillas_2.jpg",
+            "enlace": "https://www.pelis44.com/alvin-y-las-ardillas-2-html/",
+            "ya_vista": false,
+            "fecha_vista": null,
+            "calificacion_novio": 0,
+            "calificacion_novia": 0
+        },
+        {
+            "nombre": "Cars 1",
+            "imagen": "images/cars.jpg",
+            "enlace": "https://www.pelis44.com/cars-html/",
+            "ya_vista": false,
+            "fecha_vista": null,
+            "calificacion_novio": 0,
+            "calificacion_novia": 0
+        },
+        {
+            "nombre": "La Era de Hielo 3",
+            "imagen": "images/La_Era_de_Hielo_3.jpg",
+            "enlace": "https://www.pelis44.com/la-era-del-hielo-3-html/",
+            "ya_vista": false,
+            "fecha_vista": null,
+            "calificacion_novio": 0,
+            "calificacion_novia": 0
+        },
+        {
+            "nombre": "Robot Salvaje",
+            "imagen": "images/robot_salvaje.jpg",
+            "enlace": "https://www.pelis44.com/robot-salvaje/0",
+            "ya_vista": false,
+            "fecha_vista": null,
+            "calificacion_novio": 0,
+            "calificacion_novia": 0
+        },
+        {
+            "nombre": "Garfield: Fuera de casa",
+            "imagen": "images/garfield.jpg",
+            "enlace": "https://www.pelis44.com/garfield-fuera-de-casa/",
+            "ya_vista": true,
+            "fecha_vista": "2025-06-17",
+            "calificacion_novio": 7,
+            "calificacion_novia": 8
+        },
+        {
+            "nombre": "Programa de Proteccion para Princesas",
+            "imagen": "images/Programa_de_Proteccion_para_Princesas.jpg",
+            "enlace": "https://www.pelis44.com/programa-de-proteccion-para-princesas-html/",
+            "ya_vista": false,
+            "fecha_vista": null,
+            "calificacion_novio": 0,
+            "calificacion_novia": 0
+        },
+        {
+            "nombre": "Patos!",
+            "imagen": "images/patos.jpg",
+            "enlace": "https://www.pelis44.com/patos/",
+            "ya_vista": true,
+            "fecha_vista": "2025-06-18",
+            "calificacion_novio": 0,
+            "calificacion_novia": 0
+        },
+        {
+            "nombre": "El Espantatiburones",
+            "imagen": "images/El_Espantatiburones.jpg",
+            "enlace": "https://www.pelis44.com/el-espantatiburones-html/",
+            "ya_vista": false,
+            "fecha_vista": null,
+            "calificacion_novio": 0,
+            "calificacion_novia": 0
+        },
+        {
+            "nombre": "Una Chihuahua en Beverly Hills",
+            "imagen": "images/Una_Chihuahua_en_BeverlyHills.jpg",
+            "enlace": "https://www.pelis44.com/una-chihuahua-en-beverly-hills-html/",
+            "ya_vista": false,
+            "fecha_vista": null,
+            "calificacion_novio": 0,
+            "calificacion_novia": 0
+        },
+        {
+            "nombre": "Tinker Bell El Secreto de las Hadas",
+            "imagen": "images/Tinker_Bell_El_Secreto_de_las_Hadas.jpg",
+            "enlace": "https://www.pelis44.com/tinker-bell-el-secreto-de-las-hadas-html/",
+            "ya_vista": false,
+            "fecha_vista": null,
+            "calificacion_novio": 0,
+            "calificacion_novia": 0
+        }
+    ]
+}
